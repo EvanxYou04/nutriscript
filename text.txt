@@ -1,0 +1,84 @@
+🖼️ Patient Dashboard UI – Design Brief
+Goal:
+Create a clean, accessible, and mobile-friendly dashboard that shows a patient their personalized dietary recommendations, based on what their doctor submitted.
+
+🧩 Layout Overview
+🔷 1. Header / Welcome Section
+Title: “Your Personalized Nutrition Plan”
+
+Optional subtitle: “These recommendations were prepared for you by your healthcare provider.”
+
+🍽️ 2. Diet Overview Card
+A prominent card summarizing the overall plan.
+
+Example text:
+
+“Low-sodium, Mediterranean-style diet with high fiber. Focus on mostly plant-based meals.”
+
+Could use pill-style tags like:
+
+low-sodium, high fiber, plant-based, heart healthy
+
+✅ 3. Recommended Foods List
+A visual list of preferred foods:
+
+Each item could be inside a rounded card with:
+
+✅ Food name (e.g. “Lentils”)
+
+🥗 Emoji or icon
+
+(Optional) brief reason like “High fiber”
+
+Consider a grid or scrollable horizontal cards
+
+🚫 4. Foods to Avoid
+A section clearly showing excluded foods
+
+Maybe styled in red or faded out cards
+
+Example: “Processed snacks”, “Salt-heavy condiments”
+
+📌 5. Tags / Labels
+Chips or tags summarizing the diet plan
+
+Ex: diabetic friendly, low sugar, DASH diet, vegetarian
+
+Use consistent colors/icons to make scanning easier
+
+🧑‍🍳 6. Recipe Links (Optional)
+If we have URLs or recipe suggestions, show them as clickable cards or buttons:
+
+🍛 “Quinoa and lentil salad” → [View Recipe]
+
+🛒 Option: link to a grocery list or downloadable PDF
+
+🎨 Visual Style Guidelines
+Use clear typography and large text for accessibility
+
+Stick to soft greens, neutrals, and blues for a calming, health-focused aesthetic
+
+Ensure mobile-first layout — many patients will view this on their phones
+
+Use icons/emojis to help users associate food types visually (e.g. 🥦, 🐟, 🍚)
+
+🧠 Accessibility & Simplicity
+Use alt text or labels for all icons
+
+Prioritize readability: plain language over medical terms
+
+Avoid overwhelming users — group info into clear, scrollable sections
+
+🔁 Data You’ll Receive from the Backend
+Here’s a sample JSON the dashboard will receive:
+
+json
+Copy
+Edit
+{
+  "diet_type": "low-sodium, Mediterranean",
+  "excluded_foods": ["processed snacks", "red meat"],
+  "preferred_foods": ["quinoa", "lentils", "olive oil", "spinach"],
+  "tags": ["heart healthy", "plant-based", "high fiber"]
+}
+Use this structure to mock your UI components.
