@@ -5,15 +5,161 @@
   text-align: center;
 }
 
+.app {
+  min-height: 100vh;
+  background-color: #f8fdf8;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar button {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #4CAF50;
+  background: white;
+  color: #4CAF50;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-bar button:hover {
+  background: #4CAF50;
+  color: white;
+}
+
+.nav-bar button.active {
+  background: #4CAF50;
+  color: white;
+}
+
+.doctor-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-section h1 {
+  color: #2d5a3d;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Doctor Form Styles */
+.doctor-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.doctor-form textarea {
+  width: 100%;
+  min-height: 150px;
+  background: #cccccc;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.doctor-form textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.doctor-form textarea::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.doctor-form button {
+  padding: 1rem 2rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.doctor-form button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.doctor-form button:active {
+  transform: translateY(0);
+}
+
+.doctor-form button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .doctor-section {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .doctor-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .nav-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .nav-bar button {
+    padding: 1rem;
+  }
+
+  .doctor-form textarea {
+    min-height: 120px;
+  }
+
+  .doctor-form button {
+    width: 100%;
+  }
+}
+
+/* Legacy styles for existing components */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +168,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
