@@ -1,5 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
-import 'dotenv/config'
+const { GoogleGenAI, ApiError } = require("@google/genai");
+require('dotenv').config();
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 const ai = new GoogleGenAI({});
 
@@ -42,6 +42,8 @@ async function parseDietInput(input) {
 
 
 }
+
+parseDietInput("Design a South Asian vegetarian diet suitable for diabetes.Avoid white rice and sweets.Include lentils, okra, spinach, and roti made from millet or barley.");
 
 // Mock parser as fallback
 function mockParser(input) {
