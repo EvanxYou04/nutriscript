@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const tagToQuery = {
     "low-glycemic": "low glycemic",
     "anti-inflammatory": "anti inflammatory",
@@ -20,13 +18,13 @@ async function fetchRecipes(tags, count = 3) {
     if (queries.length === 0) return [];
 
     const query = encodeURIComponent(queries.join(","));
-    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=${count}&dquery=${query}&addRecipeInformation=true`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=${count}&query=${query}&addRecipeInformation=true`;
 
     try {
         const res = await fetch(url);
         const data = await res.json();
 
-        console.log("Spoonacular response:", data);
+        console.log("Spoonacular response:", data.results);
 
         return (data.results || []).map(recipe => ({
             title: recipe.title,

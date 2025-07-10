@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const dietRoutes = require("./routes/diet");
 const { parseDietInput } = require("./utils/parseDiet");
+require('dotenv').config();
 
 const app = express();
 app.use(cors());

@@ -1,6 +1,5 @@
-const { GoogleGenAI, ApiError } = require("@google/genai");
+const { GoogleGenAI } = require("@google/genai");
 const { fetchRecipes } = require("./fetchRecipes");
-require('dotenv').config();
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 const ai = new GoogleGenAI({});
 
@@ -17,28 +16,53 @@ async function parseDietInput(input) {
         - excluded_foods: array of foods to avoid
         - preferred_foods: array of foods to include
         - tags: general tags like "plant-based", "heart healthy", "DASH diet"
+        - recipe_queries: array of 1-2 recipe search terms optimized for Spoonacular API (e.g. "diabetic", "vegetarian", "mediterranean")
+
+        Guidelines for recipe_queries:
+        - Use terms that work well in recipe search engines
+        - Combine diet type with cuisine or protein
+        - Keep each query 2-4 words maximum
+        - Focus on searchable recipe terms, not medical conditions
 
         Example input:
         "Recommend a low-sodium Mediterranean-style diet with high fiber, mostly vegetarian meals."
 
+        Example output:
+        {
+        "diet_type": "low-sodium Mediterranean",
+        "excluded_foods": ["processed foods", "high sodium foods", "canned soups"],
+        "preferred_foods": ["olive oil", "fish", "vegetables", "whole grains"],
+        "tags": ["mediterranean", "heart healthy", "low sodium", "high fiber"],
+        "recipe_queries": ["mediterranean vegetarian", "low sodium fish", "heart healthy salad"]
+        }
+
         Respond ONLY with a JSON object.
         `,
                 temperature: 0.2,
-                topK: 40,
+                topK: 35,
                 topP: 1,
             },
         });
 
-        let data = response.text;
-        // clean and parse the data
-        let raw = response.candidates[0].content.parts[0].text;
-        let clean = raw.match(/\{[\s\S]*\}/); // extract first JSON-looking object
-        const parsed = JSON.parse(clean[0]);
+        // clean and parse the data 
+        const raw = response.candidates[0].content.parts[0].text;
+        const jsonMatch = raw.match(/\{[\s\S]*\}/); // extract first JSON-looking object
+        if (!jsonMatch) {
+            throw new Error('No valid JSON found in Gemini response');
+        }
+        const parsed = JSON.parse(jsonMatch[0]);
         parsed.source = 'Gemini';
 
+        // Fallback: If no recipe_queries, generate them from tags
+        if (!parsed.recipe_queries || parsed.recipe_queries.length === 0) {
+            console.log("No recipe_queries from LLM, generating from tags...");
+            parsed.recipe_queries = generateRecipeQueries(parsed);
+        }
+
         // Fetch recipes based on tags
-        const recipes = await fetchRecipes(parsed.tags || []);
+        const recipes = await fetchRecipes(parsed.recipe_queries || []);
         parsed.recipes = recipes;
+
         return parsed;
     } catch (error) {
         console.warn("Gemini API failed, using fallback function:", error.message);
@@ -52,7 +76,39 @@ async function parseDietInput(input) {
 
 }
 
-parseDietInput("Design a South Asian vegetarian diet suitable for diabetes.Avoid white rice and sweets.Include lentils, okra, spinach, and roti made from millet or barley.");
+// Helper function to generate recipe queries from other data
+function generateRecipeQueries(parsed) {
+    const queries = [];
+
+    // Combine diet type with cuisine/protein
+    if (parsed.diet_type) {
+        queries.push(parsed.diet_type.split(',')[0].trim()); // First part of diet type
+    }
+
+    // Use key preferred foods
+    if (parsed.preferred_foods && parsed.preferred_foods.length > 0) {
+        queries.push(parsed.preferred_foods[0]); // First preferred food
+    }
+
+    // Use relevant tags
+    if (parsed.tags && parsed.tags.length > 0) {
+        const goodTags = parsed.tags.filter(tag =>
+            ['vegetarian', 'diabetic', 'mediterranean', 'indian', 'healthy'].some(keyword =>
+                tag.toLowerCase().includes(keyword)
+            )
+        );
+        if (goodTags.length > 0) {
+            queries.push(goodTags[0]);
+        }
+    }
+
+    // Fallback
+    if (queries.length === 0) {
+        queries.push('healthy vegetarian');
+    }
+
+    return queries.slice(0, 3); // Max 3 queries
+}
 
 // Mock parser as fallback
 function mockParser(input) {
@@ -62,7 +118,7 @@ function mockParser(input) {
         preferred_foods: ['leafy greens', 'whole grains', 'olive oil'],
         tags: ['heart healthy', 'high fiber', 'plant-based'],
         source: 'mock'
-    };
+    }; 22
 }
 
 module.exports = { parseDietInput };
