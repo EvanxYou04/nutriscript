@@ -5,7 +5,7 @@ async function testSpoonacular() {
     console.log("API Key:", apiKey ? "Present" : "Missing");
 
     if (!apiKey) {
-        console.error("❌ No Spoonacular API key found");
+        console.error("No Spoonacular API key found");
         return;
     }
 
@@ -29,14 +29,14 @@ async function testSpoonacular() {
         console.log("API Response:", JSON.stringify(data, null, 2));
 
         if (data.results && data.results.length > 0) {
-            console.log("✅ Spoonacular API is working!");
+            console.log("Spoonacular API is working!");
             console.log("Found recipes:", data.results.map(r => r.title));
         } else {
-            console.log("⚠️ API working but no results found");
+            console.log("API working but no results found");
         }
 
     } catch (error) {
-        console.error("❌ Fetch error:", error.message);
+        console.error("Fetch error:", error.message);
     }
 }
 
