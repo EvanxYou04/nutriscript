@@ -19,12 +19,12 @@ export default function PatientDashboard({ dietData }) {
             {/* Header */}
             <div className="welcome-section">
                 <h1>Your Personalized Nutrition Plan</h1>
-                <p>These recommendations were prepared for you by your healthcare provider.</p>
+                <p>These recommendations were prepared for you by your healthcare provider</p>
             </div>
 
             {/* Diet Overview */}
             <div className="diet-overview-card">
-                <h2>Your Diet Plan</h2>
+                <h2>— Diet Overview —</h2>
                 <p className="diet-description">{dietData.diet_type}</p>
                 <div className="tags">
                     {dietData.tags?.map((tag, index) => (
@@ -33,31 +33,62 @@ export default function PatientDashboard({ dietData }) {
                 </div>
             </div>
 
-            {/* Preferred Foods */}
+            {/* Foods Section */}
             <div className="foods-section">
-                <h3>✅ Recommended Foods</h3>
                 <div className="foods-grid">
-                    {dietData.preferred_foods?.map((food, index) => (
-                        <div key={index} className="food-card preferred">
-                            <span className="food-emoji">🥗</span>
-                            <span className="food-name">{food}</span>
+                    {/* Recommended Foods */}
+                    <div className="food-section-card">
+                        <h3>Recommended Foods</h3>
+                        <div className="food-list">
+                            {dietData.preferred_foods?.map((food, index) => (
+                                <div key={index} className="food-card preferred">
+                                    <span className="food-emoji">🥗</span>
+                                    <span className="food-name">{food}</span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Foods to Avoid */}
+                    <div className="food-section-card">
+                        <h3>Foods to Avoid</h3>
+                        <div className="food-list">
+                            {dietData.excluded_foods?.map((food, index) => (
+                                <div key={index} className="food-card avoided">
+                                    <span className="food-emoji">⚠️</span>
+                                    <span className="food-name">{food}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* Foods to Avoid */}
-            <div className="foods-section">
-                <h3>🚫 Foods to Avoid</h3>
-                <div className="foods-grid">
-                    {dietData.excluded_foods?.map((food, index) => (
-                        <div key={index} className="food-card avoided">
-                            <span className="food-emoji">⚠️</span>
-                            <span className="food-name">{food}</span>
-                        </div>
-                    ))}
+            {/* Recipe Recommendations */}
+            {dietData.recipes && dietData.recipes.length > 0 && (
+                <div className="foods-section">
+                    <h3>— Weekly Plan (Week 1 of 4) —</h3>
+                    <div className="recipes-grid">
+                        {dietData.recipes.map((recipe, index) => (
+                            <div key={index} className="recipe-card">
+                                <div className="recipe-header">
+                                    <h4 className="recipe-title">{recipe.title}</h4>
+                                    <span className="recipe-time">⏱️ {recipe.readyInMinutes} min</span>
+                                </div>
+                                {recipe.image && (
+                                    <img src={recipe.image} alt={recipe.title} className="recipe-image" />
+                                )}
+                                <p className="recipe-summary">{recipe.summary}</p>
+                                {recipe.url && (
+                                    <a href={recipe.url} target="_blank" rel="noopener noreferrer" className="recipe-link">
+                                        View Recipe →
+                                    </a>
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Source indicator */}
             <div className="source-info">

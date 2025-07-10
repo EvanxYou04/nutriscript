@@ -1,4 +1,5 @@
 const { GoogleGenAI, ApiError } = require("@google/genai");
+const { fetchRecipes } = require("./fetchRecipes");
 require('dotenv').config();
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 const ai = new GoogleGenAI({});
@@ -34,10 +35,18 @@ async function parseDietInput(input) {
         let clean = raw.match(/\{[\s\S]*\}/); // extract first JSON-looking object
         const parsed = JSON.parse(clean[0]);
         parsed.source = 'Gemini';
+
+        // Fetch recipes based on tags
+        const recipes = await fetchRecipes(parsed.tags || []);
+        parsed.recipes = recipes;
         return parsed;
     } catch (error) {
         console.warn("Gemini API failed, using fallback function:", error.message);
-        return mockParser(input);
+        const mock = mockParser(input);
+        const recipes = await fetchRecipes(mock.tags || []);
+        mock.recipes = recipes;
+        return mock;
+
     }
 
 

@@ -31,7 +31,6 @@ function App() {
 
       {currentView === 'doctor' && (
         <div className="doctor-section">
-          <h1>🩺 Doctor's Dietary Recommendation Form</h1>
           <DoctorForm onSubmit={handleDietSubmit} />
         </div>
       )}

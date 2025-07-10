@@ -1,0 +1,24 @@
+.info-section {
+    color: #000;
+    text-align: center;
+    font-size: 15px;
+    padding: 0 2rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group button {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
