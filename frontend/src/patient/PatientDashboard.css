@@ -266,3 +266,27 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
+
+.dashboard-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-left-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+.dashboard-loading p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+}

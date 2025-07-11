@@ -2,6 +2,18 @@ import { useState, useEffect } from 'react';
 import './PatientDashboard.css';
 
 export default function PatientDashboard({ dietData }) {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Simulate loading state for a smooth transition
+        if (dietData) {
+            const timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 800);
+            return () => clearTimeout(timer);
+        }
+    }, [dietData]);
+
     if (!dietData) {
         return (
             <div className="dashboard">
@@ -9,6 +21,21 @@ export default function PatientDashboard({ dietData }) {
                     <h1>Your Personalized Nutrition Plan</h1>
                     <p>These recommendations were prepared for you by your healthcare provider.</p>
                     <p className="no-data">No dietary plan loaded yet.</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="dashboard">
+                <div className="welcome-section">
+                    <h1>Your Personalized Nutrition Plan</h1>
+                    <p>Loading your personalized recommendations...</p>
+                </div>
+                <div className="dashboard-loading">
+                    <div className="loading-spinner"></div>
+                    <p>Finalizing your nutrition plan...</p>
                 </div>
             </div>
         );
@@ -25,7 +52,7 @@ export default function PatientDashboard({ dietData }) {
             {/* Diet Overview */}
             <div className="diet-overview-card">
                 <h2>— Diet Overview —</h2>
-                <p className="diet-description">{dietData.diet_type}</p>
+                <p className="diet-description">{dietData.summary}</p>
                 <div className="tags">
                     {dietData.tags?.map((tag, index) => (
                         <span key={index} className="tag">{tag}</span>
@@ -67,7 +94,7 @@ export default function PatientDashboard({ dietData }) {
             {/* Recipe Recommendations */}
             {dietData.recipes && dietData.recipes.length > 0 && (
                 <div className="foods-section">
-                    <h3>— Weekly Plan (Week 1 of 4) —</h3>
+                    <h3>— Recommended Meals —</h3>
                     <div className="recipes-grid">
                         {dietData.recipes.map((recipe, index) => (
                             <div key={index} className="recipe-card">

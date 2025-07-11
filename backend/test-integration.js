@@ -12,6 +12,8 @@ async function testIntegration() {
         console.log("\n=== RESULTS ===");
         console.log("Diet Type:", result.diet_type);
         console.log("Tags:", result.tags);
+        console.log("Summary:", result.summary);
+        console.log("Recipe_queries:", result.recipe_queries);
         console.log("Preferred Foods:", result.preferred_foods);
         console.log("Excluded Foods:", result.excluded_foods);
         console.log("Recipes Found:", result.recipes?.length || 0);
